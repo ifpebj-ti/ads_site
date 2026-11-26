@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="artifact-type" content="dashboard">
+<meta name="design-style" content="carbon">
+<title>Matriz Curricular Interativa — ADS · IFPE Campus Belo Jardim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+
+  /* 1. Carbon style core tokens */
+  --background: #ffffff;
+  --surface-container-low: #f4f4f4;
+  --surface-container: #f4f4f4;
+  --surface-container-high: #e0e0e0;
+
+  --on-surface: #161616;
+  --on-surface-variant: #525252;
+
+  --outline: #8d8d8d;
+  --outline-variant: #e0e0e0;
+
+  --primary: #0f62fe;
+  --on-primary: #ffffff;
+  --primary-container: #d0e2ff;
+  --on-primary-container: #161616;
+  --secondary: #6f6f6f;
+  --tertiary: #198038;
+  --error: #da1e28;
+  --on-error: #ffffff;
+
+  --data-1: #0f62fe;
+  --data-2: #6929c4;
+  --data-3: #005d5d;
+  --data-4: #9f1853;
+  --data-context: #8d8d8d;
+
+  --font-headline: 'IBM Plex Sans', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-label: 'IBM Plex Mono', monospace;
+
+  --rounded: 0.125rem;
+  --rounded-lg: 0.25rem;
+  --rounded-full: 0.75rem;
+
+  --shadow-1: 0 2px 6px rgb(0 0 0 / 0.1);
+  --shadow-2: 0 4px 12px rgb(0 0 0 / 0.12);
+  --rule: 1px solid var(--outline-variant);
+  --field-rule: 1px solid var(--outline);
+  --indicator: 2px solid var(--primary);
+
+  /* 2. Knowledge area & dependency tokens (all WCAG AA on #ffffff and #f4f4f4) */
+  --area-prog: #0043ce;
+  --area-prog-soft: #edf5ff;
+  --area-eng: #6929c4;
+  --area-eng-soft: #f6f2ff;
+  --area-bd: #005d5d;
+  --area-bd-soft: #eefbfb;
+  --area-redes: #00539a;
+  --area-redes-soft: #edf5fa;
+  --area-ia: #9f1853;
+  --area-ia-soft: #fff0f7;
+  --area-mat: #7a4100;
+  --area-mat-soft: #fcf4ea;
+  --area-gestao: #0e6027;
+  --area-gestao-soft: #defbe6;
+  --area-opt: #525252;
+  --area-opt-soft: #f4f4f4;
+
+  --chain-selected-bg: #edf5ff;
+  --chain-direct: #0f62fe;
+  --chain-direct-bg: #d0e2ff;
+  --chain-indirect: #6929c4;
+  --chain-indirect-bg: #e8daff;
+  --chain-unlock: #198038;
+  --chain-unlock-bg: #defbe6;
+  --chain-idle-line: #c6c6c6;
+  --hover-primary: color-mix(in srgb, var(--primary), var(--on-surface) 25%);
+
+  /* 3. Shared tokens */
+  --positive: #198038;
+  --warning: #8e6a00;
+  --focus: #0f62fe;
+
+  /* Dashboard type scale */
+  --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  --label-size: 0.75rem;
+
+  /* Spacing scale (4pt base) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+}
+
+/* Base reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+header { position: static !important; }
+button, input, select { font-family: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.page-grid {
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  max-width: 1360px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.page-grid * { min-width: 0; }
+
+/* Typography & Carbon treatments */
+.label {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--on-surface-variant);
+}
+
+.headline {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 1.18;
+  margin: 0;
+  color: var(--on-surface);
+}
+.headline strong { font-weight: 600; }
+
+.page-header {
+  border-bottom: var(--rule);
+  padding-bottom: var(--space-lg);
+  display: grid;
+  gap: var(--space-sm);
+}
+.page-header h1 {
+  font-size: var(--display-size);
+}
+.standfirst {
+  margin: 0;
+  color: var(--on-surface-variant);
+  max-width: 72ch;
+}
+.header-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+.meta-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--space-sm);
+  background: var(--surface-container);
+  color: var(--on-surface);
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  border-radius: var(--rounded-full);
+}
+.meta-tag--primary {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+/* KPI Strip */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+.layer {
+  background: var(--surface-container);
+  border-radius: 0;
+  padding: var(--space-md);
+}
+.layer .layer {
+  background: var(--surface-container-high);
+}
+.kpi-tile {
+  display: grid;
+  gap: var(--space-xs);
+  align-content: start;
+}
+.key-tile {
+  border-bottom: var(--indicator);
+}
+.key-value {
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  color: var(--on-surface);
+}
+.kpi-sub {
+  font-size: 0.8125rem;
+  color: var(--on-surface-variant);
+}
+
+/* Toolbar & Filters */
+.controls-panel {
+  display: grid;
+  gap: var(--space-md);
+  border-bottom: var(--rule);
+  padding-bottom: var(--space-lg);
+}
+.controls-top-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-md);
+}
+.view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: var(--rule);
+  gap: var(--space-xs);
+}
+.tab-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: var(--space-sm) var(--space-md);
+  min-height: 44px;
+  font-size: var(--body-size);
+  font-weight: 400;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+}
+.tab-btn:hover {
+  background: var(--surface-container);
+  color: var(--on-surface);
+}
+.tab-btn.is-active {
+  border-bottom: var(--indicator);
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.search-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-sm);
+}
+.field-group {
+  display: grid;
+  gap: var(--space-xs);
+  min-width: 240px;
+}
+.field-group label {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--on-surface-variant);
+}
+.carbon-input {
+  height: 40px;
+  background: var(--surface-container);
+  border: 0;
+  border-bottom: var(--field-rule);
+  border-radius: var(--rounded) var(--rounded) 0 0;
+  padding: 0 var(--space-md);
+  font-size: var(--body-size);
+  color: var(--on-surface);
+  transition: background-color var(--dur-micro) var(--ease-out);
+}
+.carbon-input:hover {
+  background: var(--surface-container-high);
+}
+.carbon-input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.btn {
+  appearance: none;
+  min-height: 40px;
+  padding: var(--space-xs) var(--space-lg) var(--space-xs) var(--space-md);
+  border-radius: 0;
+  font-size: var(--body-size);
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border: 1px solid transparent;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--hover-primary);
+}
+.btn-secondary {
+  background: var(--background);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-container);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--primary);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--surface-container);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Area Filter Strip */
+.area-filter-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.area-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.area-chip {
+  appearance: none;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-left: 4px solid var(--chip-color, var(--outline));
+  color: var(--on-surface);
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+}
+.area-chip:hover {
+  background: var(--surface-container-high);
+}
+.area-chip.is-selected {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+.area-chip-count {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  color: var(--on-surface-variant);
+}
+.area-chip.is-selected .area-chip-count {
+  color: var(--on-primary-container);
+}
+
+/* Legend & Chain Banner */
+.legend-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-container);
+  border-left: 3px solid var(--primary);
+}
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.8125rem;
+  color: var(--on-surface);
+}
+.legend-line {
+  width: 24px;
+  height: 2px;
+  display: inline-block;
+}
+.legend-line--direct { background: var(--chain-direct); }
+.legend-line--indirect {
+  background: repeating-linear-gradient(
+    to right,
+    var(--chain-indirect) 0 5px,
+    transparent 5px 9px
+  );
+}
+.legend-line--unlock { background: var(--chain-unlock); }
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border: 2px solid var(--primary);
+  background: var(--chain-selected-bg);
+}
+
+.selection-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.toggle-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--on-surface);
+}
+.toggle-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+/* Matrix Canvas & SVG Overlay */
+.matrix-section {
+  display: grid;
+  gap: var(--space-md);
+}
+.matrix-scroll {
+  overflow-x: auto;
+  border: var(--rule);
+  background: var(--background);
+  position: relative;
+}
+.matrix-canvas {
+  position: relative;
+  min-width: 1080px;
+  padding: var(--space-md);
+}
+#prereq-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+.matrix-grid-swimlane {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 175px repeat(6, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+.matrix-grid-columns {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.col-header {
+  background: var(--surface-container-high);
+  padding: var(--space-sm) var(--space-sm);
+  border-bottom: var(--indicator);
+  display: grid;
+  gap: 2px;
+}
+.col-header--corner {
+  border-bottom-color: var(--outline);
+  background: var(--surface-container);
+}
+.col-header-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--on-surface);
+}
+.col-header-meta {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  color: var(--on-surface-variant);
+}
+
+.swimlane-row-label {
+  background: var(--surface-container);
+  border-left: 4px solid var(--lane-color, var(--outline));
+  padding: var(--space-sm);
+  display: grid;
+  align-content: start;
+  gap: var(--space-xs);
+}
+.swimlane-row-label.is-dimmed {
+  opacity: 0.3;
+}
+.swimlane-row-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  color: var(--on-surface);
+}
+.swimlane-cell {
+  background: var(--surface-container-low);
+  padding: var(--space-xs);
+  display: grid;
+  gap: var(--space-xs);
+  align-content: start;
+  min-height: 74px;
+  border-top: var(--rule);
+}
+.swimlane-cell.is-empty {
+  background: var(--background);
+}
+
+.semester-col-stack {
+  display: grid;
+  gap: var(--space-sm);
+  align-content: start;
+}
+
+/* Course Card */
+.course-card {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  background: var(--background);
+  border: 1px solid var(--outline-variant);
+  border-left: 4px solid var(--card-area-color, var(--outline));
+  padding: var(--space-sm);
+  min-height: 44px;
+  cursor: pointer;
+  display: grid;
+  gap: 4px;
+  position: relative;
+  transition:
+    background-color var(--dur-micro) var(--ease-out),
+    box-shadow var(--dur-micro) var(--ease-out),
+    opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
+}
+.course-card:hover {
+  background: var(--surface-container);
+  box-shadow: var(--shadow-1);
+  z-index: 4;
+}
+.course-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.course-code {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  font-weight: 500;
+  color: var(--on-surface-variant);
+}
+.course-hours {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  color: var(--on-surface-variant);
+}
+.course-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--on-surface);
+}
+.course-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+.course-area-tag {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  color: var(--card-area-color, var(--on-surface-variant));
+  font-weight: 500;
+}
+.course-rel-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: var(--rounded-full);
+}
+.badge-selected {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.badge-direct {
+  background: var(--chain-direct-bg);
+  color: var(--on-primary-container);
+}
+.badge-indirect {
+  background: var(--chain-indirect-bg);
+  color: var(--on-surface);
+}
+.badge-unlock {
+  background: var(--chain-unlock-bg);
+  color: var(--on-surface);
+}
+
+/* Visual states when highlighting prerequisite chain or filtering */
+.course-card.is-dimmed {
+  opacity: 0.22;
+}
+.course-card.is-search-match {
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+.course-card.is-selected {
+  background: var(--chain-selected-bg);
+  box-shadow: 0 0 0 2px var(--primary), var(--shadow-2);
+  z-index: 6;
+}
+.course-card.is-prereq-direct {
+  background: var(--background);
+  box-shadow: 0 0 0 2px var(--chain-direct), var(--shadow-1);
+  z-index: 5;
+}
+.course-card.is-prereq-indirect {
+  background: var(--background);
+  box-shadow: 0 0 0 2px var(--chain-indirect);
+  z-index: 5;
+}
+.course-card.is-dependent {
+  background: var(--background);
+  box-shadow: 0 0 0 2px var(--chain-unlock);
+  z-index: 5;
+}
+
+/* Inspector / Detail Panel */
+.inspector-panel {
+  background: var(--surface-container);
+  border-top: var(--indicator);
+  padding: var(--space-lg);
+  display: grid;
+  gap: var(--space-lg);
+}
+.inspector-empty {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+.inspector-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+.inspector-main {
+  display: grid;
+  gap: var(--space-md);
+}
+.inspector-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--space-md);
+  border-bottom: var(--rule);
+  padding-bottom: var(--space-md);
+}
+.inspector-title {
+  font-size: var(--headline-size);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+.inspector-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+.inspector-metric-box {
+  background: var(--background);
+  border: var(--rule);
+  padding: var(--space-sm) var(--space-md);
+}
+.inspector-metric-val {
+  font-family: var(--font-label);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--on-surface);
+}
+.inspector-ementa {
+  background: var(--background);
+  border: var(--rule);
+  padding: var(--space-md);
+  display: grid;
+  gap: var(--space-xs);
+}
+.inspector-ementa p {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--on-surface);
+}
+
+.chain-sidebar {
+  background: var(--background);
+  border: var(--rule);
+  padding: var(--space-md);
+  display: grid;
+  gap: var(--space-md);
+}
+.chain-group {
+  display: grid;
+  gap: var(--space-xs);
+}
+.chain-group + .chain-group {
+  border-top: var(--rule);
+  padding-top: var(--space-md);
+}
+.chain-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.chain-jump-btn {
+  appearance: none;
+  min-height: 36px;
+  padding: 4px 10px;
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-left: 3px solid var(--jump-color, var(--primary));
+  font-size: 0.8125rem;
+  color: var(--on-surface);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chain-jump-btn:hover {
+  background: var(--surface-container-high);
+}
+.chain-jump-code {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  color: var(--on-surface-variant);
+}
+
+/* Analytics & Breakdowns */
+.section-head {
+  border-bottom: var(--rule);
+  padding-bottom: var(--space-sm);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-sm);
+}
+.section-head h2 {
+  font-size: var(--headline-size);
+  margin: 0;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-lg);
+}
+.panel-box {
+  background: var(--surface-container);
+  padding: var(--space-lg);
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+.bar-list {
+  display: grid;
+  gap: var(--space-sm);
+}
+.bar-row-btn {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  background: var(--background);
+  border: 1px solid var(--outline-variant);
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  display: grid;
+  gap: 6px;
+  transition: background-color var(--dur-micro) var(--ease-out);
+}
+.bar-row-btn:hover {
+  background: var(--surface-container-high);
+}
+.bar-row-btn.is-active {
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+.bar-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+.bar-row-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--on-surface);
+}
+.bar-row-stats {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  color: var(--on-surface-variant);
+}
+.bar-track {
+  width: 100%;
+  height: 10px;
+  background: var(--surface-container);
+}
+.bar-fill {
+  height: 100%;
+  background: var(--bar-color, var(--primary));
+  transition: width var(--dur-short) var(--ease-out);
+}
+
+.nuclei-list {
+  display: grid;
+  gap: var(--space-xs);
+}
+.nuclei-row {
+  background: var(--background);
+  border: 1px solid var(--outline-variant);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+.nuclei-row--total {
+  background: var(--surface-container-high);
+  border-top: 2px solid var(--on-surface);
+  font-weight: 600;
+}
+.nuclei-val {
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Electives Catalog */
+.electives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: var(--space-md);
+}
+.elective-card {
+  background: var(--surface-container);
+  border-left: 4px solid var(--el-color, var(--outline));
+  padding: var(--space-md);
+  display: grid;
+  gap: var(--space-sm);
+  align-content: space-between;
+}
+.elective-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.btn-sm {
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 0.8125rem;
+}
+
+/* Full Curriculum Table */
+.table-wrap {
+  overflow-x: auto;
+  border: var(--rule);
+}
+.carbon-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  text-align: left;
+}
+.carbon-table thead th {
+  background: var(--surface-container-high);
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--on-surface);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--rule);
+  white-space: nowrap;
+}
+.carbon-table tbody tr {
+  border-top: var(--rule);
+  cursor: pointer;
+}
+.carbon-table tbody tr:nth-child(even) {
+  background: var(--surface-container);
+}
+.carbon-table tbody tr:hover {
+  background: var(--surface-container-high);
+}
+.carbon-table tbody tr.is-selected-row {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+.carbon-table td {
+  padding: var(--space-sm) var(--space-md);
+  vertical-align: top;
+}
+.num-col {
+  text-align: right;
+  font-family: var(--font-label);
+  white-space: nowrap;
+}
+.sort-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Footer */
+.page-footer {
+  border-top: var(--rule);
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-md);
+  font-size: 0.8125rem;
+  color: var(--on-surface-variant);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .inspector-grid,
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-grid {
+    padding: var(--space-md);
+    gap: var(--space-md);
+  }
+  .kpi-grid,
+  .inspector-metrics {
+    grid-template-columns: 1fr;
+  }
+  .field-group {
+    width: 100%;
+    min-width: 0;
+  }
+  .controls-top-row {
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page-grid">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="header-meta-row">
+      <span class="meta-tag meta-tag--primary">Matriz Curricular 2027.1</span>
+      <span class="label">Resolução CONSUP/IFPE nº 379/2026 · Eixo Informação e Comunicação</span>
+    </div>
+    <h1 class="headline">
+      Matriz Curricular Interativa — <strong>Tecnologia em Análise e Desenvolvimento de Sistemas</strong>
+    </h1>
+    <p class="standfirst">
+      IFPE Campus Belo Jardim · Curso Presencial Noturno (30 vagas anuais). Explore os 6 semestres organizados por áreas de conhecimento, filtre por eixo temático e clique em qualquer componente curricular para visualizar pré-requisitos diretos, encadeados e disciplinas desbloqueadas.
+    </p>
+  </header>
+
+  <!-- KPI STRIP -->
+  <section aria-label="Indicadores Gerais do Curso" class="kpi-grid">
+    <div class="layer kpi-tile key-tile">
+      <span class="label">Carga Horária Total</span>
+      <span class="key-value">2.205 h/r</span>
+      <span class="kpi-sub">2.940 horas-aula (45 min · 20 sem/semestre)</span>
+    </div>
+    <div class="layer kpi-tile">
+      <span class="label">Componentes Curriculares</span>
+      <span class="key-value">37</span>
+      <span class="kpi-sub">35 obrigatórios (1.665 h/r) + 2 optativos (90 h/r)</span>
+    </div>
+    <div class="layer kpi-tile">
+      <span class="label">Extensão &amp; Complementares</span>
+      <span class="key-value">450 h/r</span>
+      <span class="kpi-sub">225 h/r Práticas de Extensão + 225 h/r Atividades</span>
+    </div>
+    <div class="layer kpi-tile">
+      <span class="label">Integralização</span>
+      <span class="key-value">6 semestres</span>
+      <span class="kpi-sub">Mínima 3 anos · Máxima 6 anos · 19,5 créd/semestre</span>
+    </div>
+  </section>
+
+  <!-- CONTROLS & AREA FILTERS -->
+  <section aria-label="Controles e Filtros por Área" class="controls-panel">
+    <div class="controls-top-row">
+      <div class="view-tabs" role="tablist" aria-label="Modo de visualização da matriz">
+        <button type="button" id="tab-swimlane" class="tab-btn is-active" role="tab" aria-selected="true" onclick="setMatrixMode('swimlane')">
+          Matriz Áreas × 6 Semestres
+        </button>
+        <button type="button" id="tab-columns" class="tab-btn" role="tab" aria-selected="false" onclick="setMatrixMode('columns')">
+          Grade Compacta (6 Colunas)
+        </button>
+      </div>
+
+      <div class="search-actions-row">
+        <div class="field-group">
+          <label for="search-input">Buscar disciplina ou código</label>
+          <input id="search-input" class="carbon-input" type="search" placeholder="Ex.: PROO_03, Banco, Redes, IA…" oninput="handleSearch(this.value)">
+        </div>
+        <button type="button" id="btn-clear-all" class="btn btn-secondary" onclick="clearAllFilters()">
+          Redefinir visualização
+        </button>
+      </div>
+    </div>
+
+    <div class="area-filter-header">
+      <span class="label">Filtrar por Área de Conhecimento (clique para alternar ou combinar)</span>
+      <span id="filter-summary" class="label">Exibindo todas as 7 áreas · 37 componentes</span>
+    </div>
+
+    <div id="area-filters" class="area-filter-list" role="group" aria-label="Filtros de áreas de conhecimento">
+      <!-- Populated via JS -->
+    </div>
+  </section>
+
+  <!-- LEGEND & SELECTION STATUS -->
+  <section aria-label="Legenda da Cadeia de Pré-Requisitos" class="legend-strip">
+    <div class="legend-items">
+      <span class="legend-item"><span class="legend-swatch"></span> Selecionada</span>
+      <span class="legend-item"><span class="legend-line legend-line--direct"></span> Pré-requisito direto</span>
+      <span class="legend-item"><span class="legend-line legend-line--indirect"></span> Pré-requisito encadeado (indireto)</span>
+      <span class="legend-item"><span class="legend-line legend-line--unlock"></span> Desbloqueia (dependente)</span>
+    </div>
+
+    <div class="selection-status">
+      <label class="toggle-check" for="toggle-focus-chain">
+        <input type="checkbox" id="toggle-focus-chain" onchange="toggleFocusMode(this.checked)">
+        <span>Ocultar setas não relacionadas</span>
+      </label>
+      <button type="button" id="btn-clear-selection" class="btn btn-ghost btn-sm" onclick="selectCourse(null)" disabled>
+        Limpar seleção
+      </button>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE 6-SEMESTER MATRIX -->
+  <section aria-label="Matriz Curricular dos 6 Semestres" class="matrix-section">
+    <div class="matrix-scroll" id="matrix-scroll">
+      <div class="matrix-canvas" id="matrix-canvas">
+        <svg id="prereq-svg" aria-hidden="true"></svg>
+        <div id="matrix-container"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSE INSPECTOR PANEL -->
+  <section aria-label="Detalhamento da Disciplina e Cadeia de Pré-Requisitos" class="inspector-panel" id="inspector-panel">
+    <!-- Populated dynamically -->
+  </section>
+
+  <!-- ANALYTICS & CURRICULUM NUCLEI -->
+  <section aria-label="Distribuição por Áreas e Núcleos Curriculares" class="analytics-grid">
+    <div class="panel-box">
+      <div class="section-head">
+        <div>
+          <span class="label">Carga Horária por Eixo</span>
+          <h2 class="headline">Distribuição pelas <strong>7 Áreas de Conhecimento</strong></h2>
+        </div>
+        <span class="label">Clique em uma barra para filtrar</span>
+      </div>
+      <div id="area-bars" class="bar-list"></div>
+    </div>
+
+    <div class="panel-box">
+      <div class="section-head">
+        <div>
+          <span class="label">Quadro 1 do PPC</span>
+          <h2 class="headline">Núcleos e <strong>Integralização</strong></h2>
+        </div>
+        <span class="label">2.205 h/r totais</span>
+      </div>
+      <div class="nuclei-list">
+        <div class="nuclei-row">
+          <div>
+            <strong>Conteúdos Básicos</strong>
+            <div class="kpi-sub">Matemática (4), Humanidades (4), Metodologia (2) · 10 comp.</div>
+          </div>
+          <div class="nuclei-val">416,25 h/r<br><span class="label">555 h/a · 24,67%</span></div>
+        </div>
+        <div class="nuclei-row">
+          <div>
+            <strong>Conteúdos Específicos</strong>
+            <div class="kpi-sub">Análise e Desenv. de Sistemas (7), Ciência da Computação (8) · 15 comp.</div>
+          </div>
+          <div class="nuclei-val">712,50 h/r<br><span class="label">946 h/a · 40,00%</span></div>
+        </div>
+        <div class="nuclei-row">
+          <div>
+            <strong>Conteúdos Profissionalizantes</strong>
+            <div class="kpi-sub">Programação (7), Gestão (3), Optativas Específicas (2) · 12 comp.</div>
+          </div>
+          <div class="nuclei-val">626,25 h/r<br><span class="label">834 h/a · 35,33%</span></div>
+        </div>
+        <div class="nuclei-row">
+          <div>
+            <strong>Práticas Curriculares de Extensão</strong>
+            <div class="kpi-sub">Integração acadêmica com comunidade e arranjos produtivos</div>
+          </div>
+          <div class="nuclei-val">225,00 h/r<br><span class="label">300 h/a · 12,8%</span></div>
+        </div>
+        <div class="nuclei-row">
+          <div>
+            <strong>Atividades Complementares</strong>
+            <div class="kpi-sub">Pesquisa, monitoria, eventos, estágio não obrigatório (a partir do 4º per.)</div>
+          </div>
+          <div class="nuclei-val">225,00 h/r<br><span class="label">300 h/a · 12,8%</span></div>
+        </div>
+        <div class="nuclei-row nuclei-row--total">
+          <div>Total Geral do Curso</div>
+          <div class="nuclei-val">2.205,00 h/r<br><span class="label">2.940 h/a</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELECTIVES CATALOG (QUADRO 9) -->
+  <section aria-label="Catálogo de Componentes Curriculares Optativos" style="display: grid; gap: var(--space-md);">
+    <div class="section-head">
+      <div>
+        <span class="label">Quadro 9 do PPC · Mínimo 2 optativas no 6º Período (90 h/r)</span>
+        <h2 class="headline">Catálogo de <strong>Disciplinas Optativas</strong> (Simulação nos slots OPT1_06 e OPT2_06)</h2>
+      </div>
+      <div id="elective-slot-status" class="label">OPT1_06: livre · OPT2_06: livre</div>
+    </div>
+    <div id="electives-grid" class="electives-grid"></div>
+  </section>
+
+  <!-- COMPLETE TABLE -->
+  <section aria-label="Tabela Analítica da Matriz Curricular" style="display: grid; gap: var(--space-md);">
+    <div class="section-head">
+      <div>
+        <span class="label">Quadros 2 a 7 &amp; Dinâmica Curricular · Clique em uma linha para inspecionar</span>
+        <h2 class="headline">Relação Completa dos <strong>Componentes Curriculares</strong></h2>
+      </div>
+      <span id="table-count" class="label">37 componentes listados</span>
+    </div>
+    <div class="table-wrap">
+      <table class="carbon-table">
+        <thead>
+          <tr>
+            <th><button type="button" class="sort-btn" onclick="sortTable('semester')">Período</button></th>
+            <th><button type="button" class="sort-btn" onclick="sortTable('code')">Código</button></th>
+            <th><button type="button" class="sort-btn" onclick="sortTable('name')">Componente Curricular</button></th>
+            <th><button type="button" class="sort-btn" onclick="sortTable('area')">Área de Conhecimento</button></th>
+            <th class="num-col"><button type="button" class="sort-btn" onclick="sortTable('credits')">Créditos</button></th>
+            <th class="num-col"><button type="button" class="sort-btn" onclick="sortTable('ha')">H/A</button></th>
+            <th class="num-col"><button type="button" class="sort-btn" onclick="sortTable('hr')">H/R</button></th>
+            <th>Pré-requisitos Diretos</th>
+          </tr>
+        </thead>
+        <tbody id="curriculum-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    <span>Fonte: Projeto Pedagógico do Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas — Resolução CONSUP/IFPE nº 379, de 18 de novembro de 2026 (Campus Belo Jardim, Matriz 2027.1).</span>
+    <span class="label">IFPE Campus Belo Jardim · Agreste Central de Pernambuco</span>
+  </footer>
+
+</div>
+
+<script>
+// Knowledge Areas strictly matching user prompt
+const AREAS = [
+  {
+    id: `prog`,
+    name: `Programação e Desenvolvimento`,
+    short: `Programação`,
+    colorVar: `var(--area-prog)`,
+    desc: `Lógica, paradigmas imperativo e orientado a objetos, estruturas de dados, web, mobile e projetos integradores.`
+  },
+  {
+    id: `eng`,
+    name: `Engenharia de Software`,
+    short: `Eng. Software`,
+    colorVar: `var(--area-eng)`,
+    desc: `Processos, requisitos, IHC, análise e projeto, testes (V&V), arquitetura e qualidade de software.`
+  },
+  {
+    id: `bd`,
+    name: `Banco de Dados`,
+    short: `Banco de Dados`,
+    colorVar: `var(--area-bd)`,
+    desc: `Modelagem conceitual, lógica e física, normalização, SGBDs e linguagem SQL.`
+  },
+  {
+    id: `redes`,
+    name: `Redes e Infraestrutura`,
+    short: `Redes & Infra`,
+    colorVar: `var(--area-redes)`,
+    desc: `Introdução à computação, arquitetura de computadores, sistemas operacionais, redes, infraestrutura web, segurança e sistemas distribuídos.`
+  },
+  {
+    id: `ia`,
+    name: `Inteligência Artificial`,
+    short: `Inteligência Artificial`,
+    colorVar: `var(--area-ia)`,
+    desc: `Inteligência computacional, aprendizado de máquina, redes neurais, IA generativa e ética algorítmica.`
+  },
+  {
+    id: `mat`,
+    name: `Matemática e Fundamentos`,
+    short: `Mat. & Fundamentos`,
+    colorVar: `var(--area-mat)`,
+    desc: `Base matemática, estatística e probabilidade, metodologia científica, comunicação e língua inglesa.`
+  },
+  {
+    id: `gestao`,
+    name: `Gestão e Projetos`,
+    short: `Gestão & Projetos`,
+    colorVar: `var(--area-gestao)`,
+    desc: `Ética profissional, empreendedorismo e inovação, gerência de projetos de software e trabalho de conclusão de curso.`
+  }
+];
+
+const AREA_MAP = Object.fromEntries(AREAS.map(a => [a.id, a]));
+
+// 37 curricular components (Matriz 2027.1 - Quadros 2 to 7 + 1.9.7 + Ementário)
+const COURSES = [
+  // 1º Período
+  {
+    code: `LING_01`, name: `Língua Inglesa`, semester: 1, area: `mat`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [],
+    ementa: `Estudo da língua inglesa no âmbito das competências de compreensão e expressão em nível iniciante. Aplicabilidade das estruturas de língua inglesa para leitura, escrita, escuta e fala, estudo lexical, práticas de conversação, identificação de gêneros textuais e estratégias de leitura.`
+  },
+  {
+    code: `ENPP_01`, name: `Ética, Normas e Postura Profissional`, semester: 1, area: `gestao`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [],
+    ementa: `Fundamentos teóricos da ética e da moral; ética profissional e papel social do analista de desenvolvimento de software; códigos de ética em computação; propriedade intelectual e licenciamento; privacidade, segurança, acessibilidade, inclusão digital, ética em IA e responsabilidade socioambiental.`
+  },
+  {
+    code: `FPRG_01`, name: `Fundamentos de Programação`, semester: 1, area: `prog`,
+    credits: 4.5, ha: 90, hr: 67.5, teoHa: 1.5, praHa: 3, prereqs: [],
+    ementa: `Lógica de programação, sequências lógicas, pseudocódigo, fluxograma e diagrama de Chapin. Variáveis, tipos de dados, expressões aritméticas, literais, lógicas e relacionais. Estruturas de dados simples (vetores, matrizes, registros) e controle de fluxo em linguagem visual ou de blocos.`
+  },
+  {
+    code: `FMAT_01`, name: `Fundamentos Matemáticos`, semester: 1, area: `mat`,
+    credits: 3, ha: 60, hr: 45, teoHa: 3, praHa: 0, prereqs: [],
+    ementa: `Revisão e aprofundamento de produtos notáveis, racionalização de denominadores, funções, trigonometria e análise combinatória aplicados à resolução de problemas como base para Matemática para Computação e Estatística.`
+  },
+  {
+    code: `INTC_01`, name: `Introdução à Computação`, semester: 1, area: `redes`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [],
+    ementa: `Histórico e desenvolvimento dos computadores, sistemas numéricos (binário, decimal e hexadecimal), arquitetura básica de hardware (CPU, memória, armazenamento, E/S, barramentos), sistemas operacionais, internet, computação em nuvem, tecnologias emergentes (IA, Big Data, IoT) e inclusão digital.`
+  },
+  {
+    code: `CEXP_01`, name: `Comunicação e Expressão`, semester: 1, area: `mat`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [],
+    ementa: `Desenvolvimento da comunicação oral e escrita no contexto acadêmico e profissional em tecnologia da informação, produção e interpretação de gêneros técnicos e científicos.`
+  },
+
+  // 2º Período
+  {
+    code: `MATC_02`, name: `Matemática para Computação`, semester: 2, area: `mat`,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [`FMAT_01`],
+    ementa: `Fundamentos de matemática discreta e lógica matemática voltados à computação, relações, conjuntos, grafos e raciocínio formal aplicados à construção e análise de algoritmos e sistemas.`
+  },
+  {
+    code: `PIMP_02`, name: `Programação Imperativa`, semester: 2, area: `prog`,
+    credits: 4.5, ha: 90, hr: 67.5, teoHa: 1.5, praHa: 3, prereqs: [`FPRG_01`],
+    ementa: `Deduções lógicas na construção de programas; tipos primitivos, variáveis, operadores e expressões; entrada e saída; controle de fluxo de decisão e repetição; variáveis compostas e ordenação; manipulação de strings e arquivos; programação modular.`
+  },
+  {
+    code: `OEAC_02`, name: `Organização e Arquitetura de Computadores`, semester: 2, area: `redes`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [],
+    ementa: `Organização, funcionamento e desempenho de computadores; interdependência hardware e software; processadores, registradores, memórias, barramentos e E/S; arquiteturas RISC e CISC; introdução à linguagem de máquina; processadores multicore, computação paralela, nuvem e IoT.`
+  },
+  {
+    code: `PDSS_02`, name: `Processo de Desenvolvimento de Software`, semester: 2, area: `eng`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [],
+    ementa: `Ciclo de vida do software; processo de desenvolvimento; modelos clássicos; métodos ágeis; melhoria de processos de software; fundamentos de DevOps e ferramentas de gestão de processos.`
+  },
+  {
+    code: `BDDS_02`, name: `Banco de Dados`, semester: 2, area: `bd`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`FMAT_01`, `FPRG_01`],
+    ementa: `Introdução a Banco de Dados e visão geral de SGBDs; Modelo Entidade-Relacionamento; Modelo Relacional; mapeamento ER-Relacional; ferramentas de modelagem de dados; normalização e linguagem SQL.`
+  },
+  {
+    code: `EMPI_02`, name: `Empreendedorismo e Inovação`, semester: 2, area: `gestao`,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [],
+    ementa: `Cultura empreendedora e inovação tecnológica na indústria de software; identificação de oportunidades, modelagem de negócios, propriedade intelectual e criação de empreendimentos em TDIC.`
+  },
+
+  // 3º Período
+  {
+    code: `PROO_03`, name: `Programação Orientada a Objetos`, semester: 3, area: `prog`,
+    credits: 4.5, ha: 90, hr: 67.5, teoHa: 1.5, praHa: 3, prereqs: [`PIMP_02`],
+    ementa: `Paradigma orientado a objetos: classes, objetos, abstração, encapsulamento, herança, polimorfismo, interfaces, tratamento de exceções e boas práticas de implementação orientada a objetos.`
+  },
+  {
+    code: `EEPA_03`, name: `Estatística e Probabilidade Aplicada`, semester: 3, area: `mat`,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [`FMAT_01`],
+    ementa: `Análise, representação e sumarização descritiva de dados; teoria das probabilidades; variáveis aleatórias e distribuições discretas e contínuas; estimativa de parâmetros, testes de hipóteses, análise de variância e regressão linear simples.`
+  },
+  {
+    code: `ENGR_03`, name: `Engenharia de Requisitos`, semester: 3, area: `eng`,
+    credits: 3, ha: 60, hr: 45, teoHa: 1, praHa: 2, prereqs: [`PDSS_02`, `FPRG_01`],
+    ementa: `Requisitos e processo de Engenharia de Requisitos de software; casos de uso; técnicas de elicitação; análise e modelagem conceitual de sistemas; especificação, verificação, validação, gerência e reutilização de requisitos com uso de ferramentas.`
+  },
+  {
+    code: `SISO_03`, name: `Sistemas Operacionais`, semester: 3, area: `redes`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`OEAC_02`],
+    ementa: `Conceitos básicos de sistemas operacionais; processos e threads; gerência de memória; programação com threads e paralelismo; plataformas de virtualização e sistemas comerciais abertos e proprietários.`
+  },
+  {
+    code: `IHCP_03`, name: `Interação Humano-Computador`, semester: 3, area: `eng`,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [`FPRG_01`],
+    ementa: `Fundamentos de usabilidade, acessibilidade, experiência do usuário (UX/UI), design centrado no usuário, prototipação e avaliação de interfaces computacionais.`
+  },
+  {
+    code: `PBDD_03`, name: `Projeto de Banco de Dados`, semester: 3, area: `bd`,
+    credits: 3, ha: 60, hr: 45, teoHa: 1, praHa: 2, prereqs: [`BDDS_02`],
+    ementa: `Etapas de um projeto de banco de dados: projeto conceitual, projeto lógico e projeto físico; acompanhamento, evolução e implementação prática com SQL.`
+  },
+
+  // 4º Período
+  {
+    code: `RCOM_04`, name: `Redes de Computadores`, semester: 4, area: `redes`,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [`SISO_03`],
+    ementa: `Arquitetura e protocolos de redes de computadores, camadas de comunicação, endereçamento, roteamento, serviços de rede e interconexão de sistemas.`
+  },
+  {
+    code: `ALGE_04`, name: `Algoritmos e Estruturas de Dados`, semester: 4, area: `prog`,
+    credits: 3.75, ha: 75, hr: 56.25, teoHa: 1, praHa: 2.75, prereqs: [`PIMP_02`],
+    ementa: `Análise de algoritmos e notação assintótica; Tipos Abstratos de Dados (TADs); estruturas lineares (listas, pilhas, filas) e avançadas (árvores, árvores balanceadas, grafos e tabelas hash); busca e ordenação; recursão e complexidade temporal e espacial.`
+  },
+  {
+    code: `VEVA_04`, name: `Verificação e Validação de Software`, semester: 4, area: `eng`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`PROO_03`],
+    ementa: `Conceitos básicos de verificação e validação; revisão, inspeção e auditorias de software; técnicas de leitura de artefatos; convenções de codificação; testes de software, projeto e documentação de testes, testes de sistemas críticos e automação.`
+  },
+  {
+    code: `AEPS_04`, name: `Análise e Projeto de Software`, semester: 4, area: `eng`,
+    credits: 3, ha: 60, hr: 45, teoHa: 1, praHa: 2, prereqs: [`PROO_03`],
+    ementa: `Conceitos fundamentais e modelos de projeto de software; introdução aos padrões de projeto; notações de projeto (UML); métodos, estratégias e ferramentas de análise e projeto de software.`
+  },
+  {
+    code: `PINT_04`, name: `Programação para Internet`, semester: 4, area: `prog`,
+    credits: 3.75, ha: 75, hr: 56.25, teoHa: 1, praHa: 2.75, prereqs: [`PROO_03`],
+    ementa: `Estruturação de páginas web com HTML, estilização com CSS, emprego de linguagens script na elaboração de aplicações web dinâmicas e persistência de dados em base de dados e arquivos texto.`
+  },
+  {
+    code: `GPSW_04`, name: `Gerência de Projetos de Software`, semester: 4, area: `gestao`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`ENGR_03`],
+    ementa: `Planejamento e controle de processos de software; técnicas de estimativa; planos de desenvolvimento; acompanhamento, controle e riscos; melhoria de processos; documentação do plano de projeto integrado à qualidade, manutenção e versões.`
+  },
+
+  // 5º Período
+  {
+    code: `ITII_05`, name: `Infraestrutura de TI para Sistemas na Internet`, semester: 5, area: `redes`,
+    credits: 3, ha: 60, hr: 45, teoHa: 1, praHa: 2, prereqs: [`RCOM_04`],
+    ementa: `Provisionamento, configuração e administração de infraestrutura de TI, servidores web, serviços em nuvem, implantação e suporte operacional a sistemas na internet.`
+  },
+  {
+    code: `SEGS_05`, name: `Segurança de Sistemas`, semester: 5, area: `redes`,
+    credits: 2.25, ha: 45, hr: 33.75, teoHa: 1, praHa: 1.25, prereqs: [`PINT_04`],
+    ementa: `Confidencialidade, integridade e disponibilidade; segurança no ciclo de desenvolvimento (SSDLC); vulnerabilidades em aplicações; controle de acesso e autenticação; criptografia aplicada (hashes, certificados, HTTPS); segurança em aplicações web e APIs; testes de segurança e LGPD.`
+  },
+  {
+    code: `ARQS_05`, name: `Arquitetura de Software`, semester: 5, area: `eng`,
+    credits: 2.25, ha: 45, hr: 33.75, teoHa: 1, praHa: 1.25, prereqs: [`AEPS_04`],
+    ementa: `Fundamentos de design e arquitetura de software; elementos arquiteturais, stakeholders e atributos de qualidade; requisitos, visões, estilos e decisões arquiteturais; rastreabilidade, padrões e documentação da arquitetura.`
+  },
+  {
+    code: `SPDS_05`, name: `Sistemas Paralelos e Distribuídos`, semester: 5, area: `redes`,
+    credits: 3, ha: 60, hr: 45, teoHa: 1, praHa: 2, prereqs: [`RCOM_04`, `PROO_03`],
+    ementa: `Arquiteturas paralelas e modelos de memória compartilhada e distribuída; escalabilidade, concorrência e tolerância a falhas; comunicação entre processos (sockets, RPC, mensageria); microsserviços, containers, orquestração, serviços web e computação em nuvem.`
+  },
+  {
+    code: `ICOM_05`, name: `Inteligência Computacional`, semester: 5, area: `ia`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`EEPA_03`, `ALGE_04`],
+    ementa: `Fundamentos da IA, representação do conhecimento, aprendizado de máquina (supervisionado, não supervisionado e por reforço), redes neurais (Perceptron, MLP, backpropagation, CNN), Bayes, clustering, algoritmos genéticos, inteligência de enxames, ensemble, introdução à IA generativa e ética em IA.`
+  },
+  {
+    code: `PROJ_05`, name: `Projeto Integrador I`, semester: 5, area: `prog`,
+    credits: 3.75, ha: 75, hr: 56.25, teoHa: 1, praHa: 2.75, prereqs: [`AEPS_04`],
+    ementa: `Integração interdisciplinar para construção de um projeto de software: planejamento, análise de requisitos, desenvolvimento web com banco de dados e serviços de rede, testes, integração e entrega contínua (CI/CD) e implantação em servidor público.`
+  },
+  {
+    code: `MCIE_05`, name: `Metodologia Científica`, semester: 5, area: `mat`,
+    credits: 2.25, ha: 45, hr: 33.75, teoHa: 1.25, praHa: 1, prereqs: [`EEPA_03`],
+    ementa: `Fundamentos do método científico e tecnológico, elaboração de projetos de pesquisa e desenvolvimento, normas técnicas de redação científica e preparação para o Trabalho de Conclusão de Curso.`
+  },
+
+  // 6º Período
+  {
+    code: `PDMO_06`, name: `Programação para Dispositivos Móveis`, semester: 6, area: `prog`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`PINT_04`, `AEPS_04`],
+    ementa: `Desenvolvimento de aplicações móveis; arquiteturas e plataformas móveis; interface gráfica e UX/UI; persistência local e remota; consumo de APIs; sensores e recursos do dispositivo; publicação e distribuição de aplicativos.`
+  },
+  {
+    code: `QDSW_06`, name: `Qualidade de Software`, semester: 6, area: `eng`,
+    credits: 3, ha: 60, hr: 45, teoHa: 2, praHa: 1, prereqs: [`AEPS_04`],
+    ementa: `Definição, custos, impactos e questões éticas da qualidade de software; qualidade de processo e de produto; medição, análise e modelagem de processos; melhoria contínua e modelos de referência (CMMI, MPS.BR).`
+  },
+  {
+    code: `PROJ_06`, name: `Projeto Integrador II`, semester: 6, area: `prog`,
+    credits: 4.5, ha: 90, hr: 67.5, teoHa: 2, praHa: 2.5, prereqs: [`PROJ_05`],
+    ementa: `Evolução do Projeto Integrador I com integração interdisciplinar avançada, boas práticas industriais de engenharia e desenvolvimento web/distribuído, automação de testes, CI/CD e implantação em ambiente acessível publicamente.`
+  },
+  {
+    code: `TDCC_06`, name: `Trabalho de Conclusão de Curso`, semester: 6, area: `gestao`,
+    credits: 3, ha: 60, hr: 45, teoHa: 1, praHa: 2, prereqs: [`MCIE_05`],
+    ementa: `Projeto de síntese e integração dos conhecimentos do curso sob orientação docente, podendo resultar em monografia ou artigo científico defendido perante banca examinadora composta por três docentes.`
+  },
+  {
+    code: `OPT1_06`, name: `Optativa I`, semester: 6, area: `prog`, isOptSlot: true, slotIndex: 1,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [],
+    ementa: `Componente curricular de livre escolha do estudante (Quadro 9). Selecione uma optativa no catálogo abaixo para simular os pré-requisitos reais neste slot.`
+  },
+  {
+    code: `OPT2_06`, name: `Optativa II`, semester: 6, area: `ia`, isOptSlot: true, slotIndex: 2,
+    credits: 3, ha: 60, hr: 45, teoHa: null, praHa: null, prereqs: [],
+    ementa: `Segundo componente curricular de livre escolha do estudante (Quadro 9). Selecione uma optativa no catálogo abaixo para simular os pré-requisitos reais neste slot.`
+  }
+];
+
+// Quadro 9 — 11 Elective Options
+const ELECTIVES = [
+  {
+    code: `LIBR_OP`, name: `Libras`, area: `mat`, credits: 3, ha: 60, hr: 45, prereqs: [],
+    ementa: `Introdução à Língua Brasileira de Sinais (Libras), cultura surda, parâmetros linguísticos e comunicação inclusiva.`
+  },
+  {
+    code: `TAP1_OP`, name: `Tópicos Avançados em Programação I`, area: `prog`, credits: 3, ha: 60, hr: 45, prereqs: [`PROO_03`, `ALGE_04`],
+    ementa: `Tópicos modernos e tendências aplicadas a paradigmas de programação, acesso a bases de dados, segurança de codificação e inovações no desenvolvimento.`
+  },
+  {
+    code: `TAP2_OP`, name: `Tópicos Avançados em Programação II`, area: `prog`, credits: 3, ha: 60, hr: 45, prereqs: [`PROO_03`, `ALGE_04`],
+    ementa: `Aprofundamento em linguagens contemporâneas, frameworks modernos, paradigmas emergentes e práticas avançadas de engenharia de construção de software.`
+  },
+  {
+    code: `TABD_OP`, name: `Tópicos Avançados em Banco de Dados`, area: `bd`, credits: 3, ha: 60, hr: 45, prereqs: [`PBDD_03`],
+    ementa: `Temas atuais e estado da arte em banco de dados, bancos NoSQL, otimização de consultas e arquiteturas modernas de dados.`
+  },
+  {
+    code: `TARC_OP`, name: `Tópicos Avançados em Redes de Computadores`, area: `redes`, credits: 3, ha: 60, hr: 45, prereqs: [`SPDS_05`],
+    ementa: `Embasamento teórico avançado de interconexão de redes, simulações práticas, protocolos de roteamento e algoritmos aplicados.`
+  },
+  {
+    code: `TAII_OP`, name: `Tópicos Avançados em Infraestrutura de TI para Sistemas na Internet`, area: `redes`, credits: 3, ha: 60, hr: 45, prereqs: [`ITII_05`],
+    ementa: `Arquitetura e serviços avançados em nuvem, escalabilidade, observabilidade, entrega contínua, orquestração de containers e Infraestrutura como Código (IaC).`
+  },
+  {
+    code: `TIHC_OP`, name: `Tópicos Avançados em IHC`, area: `eng`, credits: 3, ha: 60, hr: 45, prereqs: [`IHCP_03`],
+    ementa: `Temas avançados em design de interação, acessibilidade digital, avaliação de experiência do usuário e interfaces contemporâneas.`
+  },
+  {
+    code: `TAIC_OP`, name: `Tópicos Avançados em Inteligência Computacional`, area: `ia`, credits: 3, ha: 60, hr: 45, prereqs: [`ICOM_05`],
+    ementa: `Modelos generativos (GANs, difusão, transformers), aprendizado profundo em séries temporais, few-shot, aprendizado federado, edge AI, explicabilidade e segurança adversarial.`
+  },
+  {
+    code: `ETCC_OP`, name: `Elaboração de TCC: texto, ABNT e formatação`, area: `mat`, credits: 3, ha: 60, hr: 45, prereqs: [`MCIE_05`],
+    ementa: `Estruturação textual acadêmica, normalização técnica ABNT, citações, referências e formatação de trabalhos científicos.`
+  },
+  {
+    code: `CFIS_OP`, name: `Computação Física`, area: `redes`, credits: 3, ha: 60, hr: 45, prereqs: [`SPDS_05`],
+    ementa: `Integração entre sistemas computacionais e dispositivos físicos, sensores, atuadores, hardware livre e Internet das Coisas (IoT).`
+  },
+  {
+    code: `APMQ_OP`, name: `Aprendizagem de Máquina`, area: `ia`, credits: 3, ha: 60, hr: 45, prereqs: [`ICOM_05`],
+    ementa: `Fundamentos de aprendizado de máquina e algoritmos baseados em redes neurais e abordagens estatísticas para aprendizado supervisionado, não-supervisionado, auto-supervisionado e por reforço.`
+  }
+];
+
+const SEMESTER_TOTALS = {
+  1: { credits: `19,5`, ha: 390, hr: `292,5` },
+  2: { credits: `19,5`, ha: 390, hr: `292,5` },
+  3: { credits: `19,5`, ha: 390, hr: `292,5` },
+  4: { credits: `19,5`, ha: 390, hr: `292,5` },
+  5: { credits: `19,5`, ha: 390, hr: `292,5` },
+  6: { credits: `19,5`, ha: 390, hr: `292,5` }
+};
+
+// Mutable application state
+const state = {
+  mode: `swimlane`, // 'swimlane' | 'columns'
+  selectedAreas: new Set(), // empty = all areas
+  searchQuery: ``,
+  selectedCode: `PROJ_06`, // Start focused on a rich 6-semester chain so value is immediately visible!
+  hideUnrelatedLines: false,
+  assignedElectives: {
+    OPT1_06: null,
+    OPT2_06: null
+  },
+  sortField: `semester`,
+  sortDir: `asc`
+};
+
+// Resolve effective course objects (applying any simulated electives on OPT1_06 / OPT2_06)
+function getEffectiveCourses() {
+  return COURSES.map(course => {
+    if (course.isOptSlot) {
+      const assignedCode = state.assignedElectives[course.code];
+      if (assignedCode) {
+        const el = ELECTIVES.find(e => e.code === assignedCode);
+        if (el) {
+          return {
+            ...course,
+            displayCode: `${course.code} → ${el.code}`,
+            name: `${el.name} (${course.slotIndex === 1 ? `Opt. I` : `Opt. II`})`,
+            area: el.area,
+            prereqs: [...el.prereqs],
+            ementa: el.ementa,
+            assignedElective: el
+          };
+        }
+      }
+      return {
+        ...course,
+        displayCode: course.code,
+        assignedElective: null
+      };
+    }
+    return {
+      ...course,
+      displayCode: course.code
+    };
+  });
+}
+
+// Compute prerequisite & dependent chains via BFS with exact hop depth
+function computeChain(targetCode, effectiveCourses) {
+  if (!targetCode) {
+    return {
+      directPrereqs: new Set(),
+      indirectPrereqs: new Map(), // code -> depth (>=2)
+      directDependents: new Set(),
+      indirectDependents: new Map() // code -> depth (>=2)
+    };
+  }
+  const byCode = Object.fromEntries(effectiveCourses.map(c => [c.code, c]));
+  const target = byCode[targetCode];
+  if (!target) {
+    return {
+      directPrereqs: new Set(),
+      indirectPrereqs: new Map(),
+      directDependents: new Set(),
+      indirectDependents: new Map()
+    };
+  }
+
+  // Backward traversal (prerequisites)
+  const directPrereqs = new Set(target.prereqs);
+  const indirectPrereqs = new Map();
+  const visitedBack = new Set([targetCode]);
+  const queueBack = target.prereqs.map(p => ({ code: p, depth: 1 }));
+  queueBack.forEach(item => visitedBack.add(item.code));
+
+  while (queueBack.length > 0) {
+    const current = queueBack.shift();
+    const node = byCode[current.code];
+    if (!node) continue;
+    for (const p of node.prereqs) {
+      if (!visitedBack.has(p)) {
+        visitedBack.add(p);
+        const nextDepth = current.depth + 1;
+        if (!directPrereqs.has(p)) {
+          indirectPrereqs.set(p, nextDepth);
+        }
+        queueBack.push({ code: p, depth: nextDepth });
+      }
+    }
+  }
+
+  // Forward traversal (dependents / unlocked courses)
+  const childrenMap = {};
+  effectiveCourses.forEach(c => { childrenMap[c.code] = []; });
+  effectiveCourses.forEach(c => {
+    c.prereqs.forEach(p => {
+      if (childrenMap[p]) childrenMap[p].push(c.code);
+    });
+  });
+
+  const directDependents = new Set(childrenMap[targetCode] || []);
+  const indirectDependents = new Map();
+  const visitedFwd = new Set([targetCode]);
+  const queueFwd = (childrenMap[targetCode] || []).map(ch => ({ code: ch, depth: 1 }));
+  queueFwd.forEach(item => visitedFwd.add(item.code));
+
+  while (queueFwd.length > 0) {
+    const current = queueFwd.shift();
+    for (const ch of (childrenMap[current.code] || [])) {
+      if (!visitedFwd.has(ch)) {
+        visitedFwd.add(ch);
+        const nextDepth = current.depth + 1;
+        if (!directDependents.has(ch)) {
+          indirectDependents.set(ch, nextDepth);
+        }
+        queueFwd.push({ code: ch, depth: nextDepth });
+      }
+    }
+  }
+
+  return { directPrereqs, indirectPrereqs, directDependents, indirectDependents };
+}
+
+function isCourseVisibleByFilter(course) {
+  const areaOk = state.selectedAreas.size === 0 || state.selectedAreas.has(course.area);
+  const q = state.searchQuery.trim().toLowerCase();
+  const searchOk = !q ||
+    course.name.toLowerCase().includes(q) ||
+    course.code.toLowerCase().includes(q) ||
+    (course.displayCode && course.displayCode.toLowerCase().includes(q)) ||
+    AREA_MAP[course.area].name.toLowerCase().includes(q);
+  return areaOk && searchOk;
+}
+
+function formatNumPt(n) {
+  return String(n).replace('.', ',');
+}
+
+// Event handlers (hoisted function declarations)
+function setMatrixMode(mode) {
+  state.mode = mode;
+  const tabSwim = document.getElementById(`tab-swimlane`);
+  const tabCols = document.getElementById(`tab-columns`);
+  if (tabSwim && tabCols) {
+    tabSwim.classList.toggle(`is-active`, mode === `swimlane`);
+    tabSwim.setAttribute(`aria-selected`, mode === `swimlane` ? `true` : `false`);
+    tabCols.classList.toggle(`is-active`, mode === `columns`);
+    tabCols.setAttribute(`aria-selected`, mode === `columns` ? `true` : `false`);
+  }
+  renderAll();
+}
+
+function toggleAreaFilter(areaId) {
+  if (state.selectedAreas.has(areaId)) {
+    state.selectedAreas.delete(areaId);
+  } else {
+    state.selectedAreas.add(areaId);
+  }
+  renderAll();
+}
+
+function handleSearch(val) {
+  state.searchQuery = val;
+  renderAll();
+}
+
+function selectCourse(code) {
+  if (code && state.selectedCode === code) {
+    state.selectedCode = null;
+  } else {
+    state.selectedCode = code;
+  }
+  renderAll();
+}
+
+function jumpToCourse(code) {
+  state.selectedCode = code;
+  renderAll();
+  const card = document.querySelector(`.course-card[data-code="${code}"]`);
+  if (card) {
+    card.scrollIntoView({ behavior: `smooth`, block: `nearest`, inline: `nearest` });
+  }
+}
+
+function toggleFocusMode(checked) {
+  state.hideUnrelatedLines = checked;
+  drawPrerequisiteLines();
+}
+
+function clearAreaFilters() {
+  state.selectedAreas.clear();
+  renderAll();
+}
+
+function clearAllFilters() {
+  state.selectedAreas.clear();
+  state.searchQuery = ``;
+  state.selectedCode = null;
+  state.hideUnrelatedLines = false;
+  const searchEl = document.getElementById(`search-input`);
+  if (searchEl) searchEl.value = ``;
+  const focusEl = document.getElementById(`toggle-focus-chain`);
+  if (focusEl) focusEl.checked = false;
+  renderAll();
+}
+
+function assignElective(slotCode, electiveCode) {
+  if (state.assignedElectives[slotCode] === electiveCode) {
+    state.assignedElectives[slotCode] = null;
+  } else {
+    state.assignedElectives[slotCode] = electiveCode;
+    state.selectedCode = slotCode;
+  }
+  renderAll();
+}
+
+function sortTable(field) {
+  if (state.sortField === field) {
+    state.sortDir = state.sortDir === `asc` ? `desc` : `asc`;
+  } else {
+    state.sortField = field;
+    state.sortDir = `asc`;
+  }
+  renderTable(getEffectiveCourses());
+}
+
+// Render Area Filter Chips
+function renderAreaFilters(effectiveCourses) {
+  const container = document.getElementById(`area-filters`);
+  const summary = document.getElementById(`filter-summary`);
+  if (!container) return;
+
+  const counts = {};
+  AREAS.forEach(a => { counts[a.id] = 0; });
+  effectiveCourses.forEach(c => { counts[c.area] = (counts[c.area] || 0) + 1; });
+
+  const allSelected = state.selectedAreas.size === 0;
+  let html = `
+    <button type="button" class="area-chip ${allSelected ? `is-selected` : ``}" style="--chip-color: var(--primary)" onclick="clearAreaFilters()">
+      <span>Todas as Áreas</span>
+      <span class="area-chip-count">${effectiveCourses.length}</span>
+    </button>
+  `;
+
+  AREAS.forEach(area => {
+    const active = state.selectedAreas.has(area.id);
+    html += `
+      <button type="button" class="area-chip ${active ? `is-selected` : ``}" style="--chip-color: ${area.colorVar}" onclick="toggleAreaFilter('${area.id}')">
+        <span>${area.name}</span>
+        <span class="area-chip-count">${counts[area.id]}</span>
+      </button>
+    `;
+  });
+
+  container.innerHTML = html;
+
+  if (summary) {
+    const visibleCount = effectiveCourses.filter(isCourseVisibleByFilter).length;
+    const areaText = state.selectedAreas.size === 0
+      ? `todas as 7 áreas`
+      : `${state.selectedAreas.size} ${state.selectedAreas.size === 1 ? `área selecionada` : `áreas selecionadas`}`;
+    summary.textContent = `Exibindo ${areaText} · ${visibleCount} de ${effectiveCourses.length} componentes destacados`;
+  }
+}
+
+function buildCourseCardHtml(course, chain) {
+  const area = AREA_MAP[course.area];
+  const visible = isCourseVisibleByFilter(course);
+  const hasSelection = Boolean(state.selectedCode);
+  const isSelected = state.selectedCode === course.code;
+  const isDirect = chain.directPrereqs.has(course.code);
+  const isIndirect = chain.indirectPrereqs.has(course.code);
+  const isDep = chain.directDependents.has(course.code) || chain.indirectDependents.has(course.code);
+  const inChain = isSelected || isDirect || isIndirect || isDep;
+
+  let classes = [`course-card`];
+  if (isSelected) classes.push(`is-selected`);
+  else if (isDirect) classes.push(`is-prereq-direct`);
+  else if (isIndirect) classes.push(`is-prereq-indirect`);
+  else if (isDep) classes.push(`is-dependent`);
+
+  if (!visible || (hasSelection && !inChain)) {
+    classes.push(`is-dimmed`);
+  }
+  if (state.searchQuery.trim() && visible) {
+    classes.push(`is-search-match`);
+  }
+
+  let relBadge = ``;
+  if (isSelected) {
+    relBadge = `<span class="course-rel-badge badge-selected">Selecionada</span>`;
+  } else if (isDirect) {
+    relBadge = `<span class="course-rel-badge badge-direct">Pré-req direto</span>`;
+  } else if (isIndirect) {
+    const lvl = chain.indirectPrereqs.get(course.code);
+    relBadge = `<span class="course-rel-badge badge-indirect">Encadeado (-${lvl})</span>`;
+  } else if (isDep) {
+    const isDirectDep = chain.directDependents.has(course.code);
+    relBadge = `<span class="course-rel-badge badge-unlock">${isDirectDep ? `Desbloqueia` : `Desbloqueio +`}</span>`;
+  }
+
+  const optBadge = course.isOptSlot && !course.assignedElective
+    ? `<span class="course-area-tag">Optativa · Quadro 9</span>`
+    : `<span class="course-area-tag">${area.short}</span>`;
+
+  return `
+    <button
+      type="button"
+      class="${classes.join(` `)}"
+      data-code="${course.code}"
+      style="--card-area-color: ${area.colorVar}"
+      onclick="selectCourse('${course.code}')"
+      aria-pressed="${isSelected ? `true` : `false`}"
+    >
+      <div class="course-card-top">
+        <span class="course-code">${course.displayCode}</span>
+        <span class="course-hours">${course.ha}h/a · ${formatNumPt(course.hr)}h/r</span>
+      </div>
+      <div class="course-title">${course.name}</div>
+      <div class="course-foot">
+        ${optBadge}
+        ${relBadge}
+      </div>
+    </button>
+  `;
+}
+
+// Render 6-Semester Matrix
+function renderMatrix(effectiveCourses, chain) {
+  const container = document.getElementById(`matrix-container`);
+  if (!container) return;
+
+  if (state.mode === `swimlane`) {
+    let html = `<div class="matrix-grid-swimlane">`;
+    // Header row
+    html += `
+      <div class="col-header col-header--corner">
+        <span class="col-header-title">Área de Conhecimento</span>
+        <span class="col-header-meta">7 eixos · 6 períodos</span>
+      </div>
+    `;
+    for (let s = 1; s <= 6; s++) {
+      const tot = SEMESTER_TOTALS[s];
+      html += `
+        <div class="col-header">
+          <span class="col-header-title">${s}º Período</span>
+          <span class="col-header-meta">${tot.credits} cr · ${tot.ha} h/a · ${tot.hr} h/r</span>
+        </div>
+      `;
+    }
+
+    // Area rows
+    AREAS.forEach(area => {
+      const areaDimmed = state.selectedAreas.size > 0 && !state.selectedAreas.has(area.id);
+      const areaCourses = effectiveCourses.filter(c => c.area === area.id);
+      const totalAreaHr = areaCourses.reduce((acc, c) => acc + c.hr, 0);
+
+      html += `
+        <div class="swimlane-row-label ${areaDimmed ? `is-dimmed` : ``}" style="--lane-color: ${area.colorVar}">
+          <span class="swimlane-row-name">${area.name}</span>
+          <span class="col-header-meta">${areaCourses.length} comp. · ${formatNumPt(totalAreaHr)} h/r</span>
+        </div>
+      `;
+
+      for (let s = 1; s <= 6; s++) {
+        const cellCourses = areaCourses.filter(c => c.semester === s);
+        html += `<div class="swimlane-cell ${cellCourses.length === 0 ? `is-empty` : ``}">`;
+        cellCourses.forEach(c => {
+          html += buildCourseCardHtml(c, chain);
+        });
+        html += `</div>`;
+      }
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+  } else {
+    // 6 Columns view
+    let html = `<div class="matrix-grid-columns">`;
+    for (let s = 1; s <= 6; s++) {
+      const tot = SEMESTER_TOTALS[s];
+      const semCourses = effectiveCourses.filter(c => c.semester === s);
+      html += `<div class="semester-col-stack">`;
+      html += `
+        <div class="col-header">
+          <span class="col-header-title">${s}º Período</span>
+          <span class="col-header-meta">${tot.credits} cr · ${tot.ha} h/a · ${tot.hr} h/r</span>
+        </div>
+      `;
+      semCourses.forEach(c => {
+        html += buildCourseCardHtml(c, chain);
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+    container.innerHTML = html;
+  }
+
+  const clearBtn = document.getElementById(`btn-clear-selection`);
+  if (clearBtn) {
+    clearBtn.disabled = !state.selectedCode;
+  }
+
+  // Draw SVG dependency edges after DOM layout settles
+  requestAnimationFrame(drawPrerequisiteLines);
+}
+
+// Draw crisp SVG bezier lines between prerequisites and targets
+function drawPrerequisiteLines() {
+  const svg = document.getElementById(`prereq-svg`);
+  const canvas = document.getElementById(`matrix-canvas`);
+  if (!svg || !canvas) return;
+
+  const effectiveCourses = getEffectiveCourses();
+  const chain = computeChain(state.selectedCode, effectiveCourses);
+  const canvasRect = canvas.getBoundingClientRect();
+
+  svg.setAttribute(`width`, String(canvas.scrollWidth));
+  svg.setAttribute(`height`, String(canvas.scrollHeight));
+  svg.setAttribute(`viewBox`, `0 0 ${canvas.scrollWidth} ${canvas.scrollHeight}`);
+
+  const cardEls = {};
+  canvas.querySelectorAll(`.course-card[data-code]`).forEach(el => {
+    cardEls[el.getAttribute(`data-code`)] = el;
+  });
+
+  // Collect edges: (from -> to)
+  const edges = [];
+  effectiveCourses.forEach(course => {
+    course.prereqs.forEach(prereqCode => {
+      if (cardEls[prereqCode] && cardEls[course.code]) {
+        edges.push({ from: prereqCode, to: course.code });
+      }
+    });
+  });
+
+  const defs = `
+    <defs>
+      <marker id="arrow-idle" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--chain-idle-line)"></path>
+      </marker>
+      <marker id="arrow-direct" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--chain-direct)"></path>
+      </marker>
+      <marker id="arrow-indirect" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--chain-indirect)"></path>
+      </marker>
+      <marker id="arrow-unlock" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--chain-unlock)"></path>
+      </marker>
+    </defs>
+  `;
+
+  let pathsIdle = ``;
+  let pathsActive = ``;
+
+  const hasSelection = Boolean(state.selectedCode);
+  const allPrereqSet = new Set([state.selectedCode, ...chain.directPrereqs, ...chain.indirectPrereqs.keys()]);
+  const allUnlockSet = new Set([state.selectedCode, ...chain.directDependents, ...chain.indirectDependents.keys()]);
+
+  edges.forEach(edge => {
+    const fromRect = cardEls[edge.from].getBoundingClientRect();
+    const toRect = cardEls[edge.to].getBoundingClientRect();
+
+    const x1 = fromRect.right - canvasRect.left;
+    const y1 = fromRect.top + fromRect.height / 2 - canvasRect.top;
+    const x2 = toRect.left - canvasRect.left;
+    const y2 = toRect.top + toRect.height / 2 - canvasRect.top;
+
+    const dx = Math.max(36, Math.abs(x2 - x1) * 0.45);
+    const d = `M ${x1.toFixed(1)} ${y1.toFixed(1)} C ${(x1 + dx).toFixed(1)} ${y1.toFixed(1)}, ${(x2 - dx).toFixed(1)} ${y2.toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+
+    let edgeType = `idle`;
+    if (hasSelection) {
+      if (edge.to === state.selectedCode && chain.directPrereqs.has(edge.from)) {
+        edgeType = `direct`;
+      } else if (allPrereqSet.has(edge.to) && allPrereqSet.has(edge.from)) {
+        edgeType = `indirect`;
+      } else if (allUnlockSet.has(edge.from) && allUnlockSet.has(edge.to)) {
+        edgeType = `unlock`;
+      }
+    }
+
+    if (edgeType === `idle`) {
+      if (!state.hideUnrelatedLines) {
+        const opacity = hasSelection ? `0.1` : `0.38`;
+        pathsIdle += `<path d="${d}" fill="none" stroke="var(--chain-idle-line)" stroke-width="1.25" opacity="${opacity}" marker-end="url(#arrow-idle)"></path>`;
+      }
+    } else if (edgeType === `direct`) {
+      pathsActive += `<path d="${d}" fill="none" stroke="var(--chain-direct)" stroke-width="2.5" marker-end="url(#arrow-direct)"></path>`;
+    } else if (edgeType === `indirect`) {
+      pathsActive += `<path d="${d}" fill="none" stroke="var(--chain-indirect)" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#arrow-indirect)"></path>`;
+    } else if (edgeType === `unlock`) {
+      pathsActive += `<path d="${d}" fill="none" stroke="var(--chain-unlock)" stroke-width="2.2" marker-end="url(#arrow-unlock)"></path>`;
+    }
+  });
+
+  svg.innerHTML = defs + pathsIdle + pathsActive;
+}
+
+// Render Inspector Panel
+function renderInspector(effectiveCourses, chain) {
+  const panel = document.getElementById(`inspector-panel`);
+  if (!panel) return;
+
+  if (!state.selectedCode) {
+    panel.innerHTML = `
+      <div class="inspector-empty">
+        <div>
+          <span class="label">Nenhuma disciplina selecionada</span>
+          <h2 class="headline" style="margin-top: 4px;">Clique em qualquer componente curricular na matriz acima</h2>
+          <p class="standfirst" style="margin-top: 4px;">Você verá a ementa oficial do PPC, distribuição teórico-prática e a árvore completa de pré-requisitos diretos, encadeados e desbloqueios.</p>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="selectCourse('PROJ_06')">
+          Inspecionar cadeia de 6 semestres (PROJ_06)
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  const byCode = Object.fromEntries(effectiveCourses.map(c => [c.code, c]));
+  const course = byCode[state.selectedCode];
+  if (!course) return;
+  const area = AREA_MAP[course.area];
+
+  const teoPraText = course.teoHa !== null
+    ? `${formatNumPt(course.teoHa)}h/a teór · ${formatNumPt(course.praHa)}h/a prát`
+    : `Conforme plano de ensino`;
+
+  function makeJumpList(codes, emptyMsg) {
+    if (!codes || codes.length === 0) {
+      return `<span class="kpi-sub">${emptyMsg}</span>`;
+    }
+    return `<div class="chain-pill-list">` + codes.map(code => {
+      const target = byCode[code];
+      if (!target) return ``;
+      const tArea = AREA_MAP[target.area];
+      return `
+        <button type="button" class="chain-jump-btn" style="--jump-color: ${tArea.colorVar}" onclick="jumpToCourse('${target.code}')">
+          <span class="chain-jump-code">${target.code} · ${target.semester}º</span>
+          <span>${target.name}</span>
+        </button>
+      `;
+    }).join(``) + `</div>`;
+  }
+
+  const directPrereqArr = Array.from(chain.directPrereqs);
+  const indirectPrereqArr = Array.from(chain.indirectPrereqs.keys()).sort((a, b) => byCode[a].semester - byCode[b].semester);
+  const directDepArr = Array.from(chain.directDependents);
+  const indirectDepArr = Array.from(chain.indirectDependents.keys()).sort((a, b) => byCode[a].semester - byCode[b].semester);
+
+  let optControls = ``;
+  if (course.isOptSlot) {
+    optControls = `
+      <div class="inspector-ementa" style="border-left: 3px solid var(--primary);">
+        <span class="label">Simular disciplina optativa neste slot (${course.code})</span>
+        <div class="chain-pill-list" style="margin-top: 6px;">
+          ${ELECTIVES.map(el => {
+            const isAssigned = state.assignedElectives[course.code] === el.code;
+            return `
+              <button type="button" class="btn btn-sm ${isAssigned ? `btn-primary` : `btn-secondary`}" onclick="assignElective('${course.code}', '${el.code}')">
+                ${el.code} · ${el.name}
+              </button>
+            `;
+          }).join(``)}
+        </div>
+      </div>
+    `;
+  }
+
+  panel.innerHTML = `
+    <div class="inspector-grid">
+      <div class="inspector-main">
+        <div class="inspector-header">
+          <div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); margin-bottom: 6px;">
+              <span class="meta-tag meta-tag--primary">${course.displayCode}</span>
+              <span class="meta-tag">${course.semester}º Período</span>
+              <span class="meta-tag" style="border-left: 3px solid ${area.colorVar};">${area.name}</span>
+            </div>
+            <h2 class="inspector-title">${course.name}</h2>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="selectCourse(null)">Fechar inspeção</button>
+        </div>
+
+        <div class="inspector-metrics">
+          <div class="inspector-metric-box">
+            <span class="label">Carga Relógio</span>
+            <div class="inspector-metric-val">${formatNumPt(course.hr)} h/r</div>
+          </div>
+          <div class="inspector-metric-box">
+            <span class="label">Horas-Aula</span>
+            <div class="inspector-metric-val">${course.ha} h/a</div>
+          </div>
+          <div class="inspector-metric-box">
+            <span class="label">Créditos</span>
+            <div class="inspector-metric-val">${formatNumPt(course.credits)}</div>
+          </div>
+          <div class="inspector-metric-box">
+            <span class="label">Distribuição Semanal</span>
+            <div class="inspector-metric-val" style="font-size: 0.9375rem;">${teoPraText}</div>
+          </div>
+        </div>
+
+        <div class="inspector-ementa">
+          <span class="label">Ementa do Componente Curricular (PPC)</span>
+          <p>${course.ementa}</p>
+        </div>
+
+        ${optControls}
+      </div>
+
+      <aside class="chain-sidebar" aria-label="Cadeia de Pré-Requisitos e Desbloqueios">
+        <div class="chain-group">
+          <span class="label" style="color: var(--chain-direct);">Pré-requisitos diretos (${directPrereqArr.length})</span>
+          ${makeJumpList(directPrereqArr, `Sem pré-requisitos diretos (ingresso livre neste eixo).`)}
+        </div>
+
+        <div class="chain-group">
+          <span class="label" style="color: var(--chain-indirect);">Pré-requisitos encadeados / ancestrais (${indirectPrereqArr.length})</span>
+          ${makeJumpList(indirectPrereqArr, `Nenhum pré-requisito indireto anterior.`)}
+        </div>
+
+        <div class="chain-group">
+          <span class="label" style="color: var(--chain-unlock);">Desbloqueia diretamente (${directDepArr.length})</span>
+          ${makeJumpList(directDepArr, `Não é pré-requisito direto de outros componentes obrigatórios.`)}
+        </div>
+
+        <div class="chain-group">
+          <span class="label">Desbloqueio em cadeia futuro (${indirectDepArr.length})</span>
+          ${makeJumpList(indirectDepArr, `Nenhum desbloqueio indireto posterior.`)}
+        </div>
+      </aside>
+    </div>
+  `;
+}
+
+// Render Area Breakdown Bars
+function renderAreaBars(effectiveCourses) {
+  const container = document.getElementById(`area-bars`);
+  if (!container) return;
+
+  const stats = AREAS.map(area => {
+    const list = effectiveCourses.filter(c => c.area === area.id);
+    const hr = list.reduce((acc, c) => acc + c.hr, 0);
+    const ha = list.reduce((acc, c) => acc + c.ha, 0);
+    return { area, count: list.length, hr, ha };
+  }).sort((a, b) => b.hr - a.hr);
+
+  const maxHr = Math.max(...stats.map(s => s.hr), 1);
+
+  container.innerHTML = stats.map(item => {
+    const pct = Math.round((item.hr / maxHr) * 100);
+    const isActive = state.selectedAreas.has(item.area.id);
+    return `
+      <button type="button" class="bar-row-btn ${isActive ? `is-active` : ``}" onclick="toggleAreaFilter('${item.area.id}')">
+        <div class="bar-row-head">
+          <span class="bar-row-title">${item.area.name}</span>
+          <span class="bar-row-stats">${item.count} comp. · ${item.ha} h/a · ${formatNumPt(item.hr)} h/r</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: ${pct}%; --bar-color: ${item.area.colorVar};"></div>
+        </div>
+      </button>
+    `;
+  }).join(``);
+}
+
+// Render Electives Catalog
+function renderElectives() {
+  const grid = document.getElementById(`electives-grid`);
+  const statusEl = document.getElementById(`elective-slot-status`);
+  if (!grid) return;
+
+  if (statusEl) {
+    const s1 = state.assignedElectives.OPT1_06 || `livre`;
+    const s2 = state.assignedElectives.OPT2_06 || `livre`;
+    statusEl.textContent = `OPT1_06: ${s1} · OPT2_06: ${s2}`;
+  }
+
+  grid.innerHTML = ELECTIVES.map(el => {
+    const area = AREA_MAP[el.area];
+    const inSlot1 = state.assignedElectives.OPT1_06 === el.code;
+    const inSlot2 = state.assignedElectives.OPT2_06 === el.code;
+    const prereqText = el.prereqs.length > 0 ? el.prereqs.join(`, `) : `Sem pré-requisito`;
+
+    return `
+      <article class="elective-card" style="--el-color: ${area.colorVar}">
+        <div style="display: grid; gap: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+            <span class="course-code">${el.code}</span>
+            <span class="course-hours">${el.credits} cr · ${el.ha}h/a · ${el.hr}h/r</span>
+          </div>
+          <h3 style="margin: 0; font-size: 1rem; font-weight: 600;">${el.name}</h3>
+          <div class="label" style="color: ${area.colorVar};">${area.name}</div>
+          <div class="kpi-sub">Pré-requisito: <strong>${prereqText}</strong></div>
+          <p style="margin: 0; font-size: 0.84rem; color: var(--on-surface-variant);">${el.ementa}</p>
+        </div>
+        <div class="elective-actions">
+          <button type="button" class="btn btn-sm ${inSlot1 ? `btn-primary` : `btn-secondary`}" onclick="assignElective('OPT1_06', '${el.code}')">
+            ${inSlot1 ? `Ativa em OPT1_06` : `Simular em OPT1_06`}
+          </button>
+          <button type="button" class="btn btn-sm ${inSlot2 ? `btn-primary` : `btn-secondary`}" onclick="assignElective('OPT2_06', '${el.code}')">
+            ${inSlot2 ? `Ativa em OPT2_06` : `Simular em OPT2_06`}
+          </button>
+        </div>
+      </article>
+    `;
+  }).join(``);
+}
+
+// Render Full Curriculum Table
+function renderTable(effectiveCourses) {
+  const tbody = document.getElementById(`curriculum-tbody`);
+  const countEl = document.getElementById(`table-count`);
+  if (!tbody) return;
+
+  const filtered = effectiveCourses.filter(isCourseVisibleByFilter);
+  const sorted = [...filtered].sort((a, b) => {
+    const dir = state.sortDir === `asc` ? 1 : -1;
+    const f = state.sortField;
+    if (f === `area`) {
+      return AREA_MAP[a.area].name.localeCompare(AREA_MAP[b.area].name, `pt`) * dir;
+    }
+    if (typeof a[f] === `number` && typeof b[f] === `number`) {
+      return (a[f] - b[f]) * dir;
+    }
+    return String(a[f]).localeCompare(String(b[f]), `pt`) * dir;
+  });
+
+  if (countEl) {
+    countEl.textContent = `${sorted.length} de ${effectiveCourses.length} componentes exibidos`;
+  }
+
+  tbody.innerHTML = sorted.map(c => {
+    const area = AREA_MAP[c.area];
+    const isSel = state.selectedCode === c.code;
+    const prereqText = c.prereqs.length > 0 ? c.prereqs.join(`, `) : `—`;
+    return `
+      <tr class="${isSel ? `is-selected-row` : ``}" onclick="jumpToCourse('${c.code}')">
+        <td class="num-col">${c.semester}º</td>
+        <td style="font-family: var(--font-label); white-space: nowrap;">${c.displayCode}</td>
+        <td><strong>${c.name}</strong></td>
+        <td style="color: ${area.colorVar}; font-weight: 500;">${area.name}</td>
+        <td class="num-col">${formatNumPt(c.credits)}</td>
+        <td class="num-col">${c.ha}</td>
+        <td class="num-col">${formatNumPt(c.hr)}</td>
+        <td style="font-family: var(--font-label); font-size: 0.75rem;">${prereqText}</td>
+      </tr>
+    `;
+  }).join(``);
+}
+
+function renderAll() {
+  const effectiveCourses = getEffectiveCourses();
+  const chain = computeChain(state.selectedCode, effectiveCourses);
+  renderAreaFilters(effectiveCourses);
+  renderMatrix(effectiveCourses, chain);
+  renderInspector(effectiveCourses, chain);
+  renderAreaBars(effectiveCourses);
+  renderElectives();
+  renderTable(effectiveCourses);
+}
+
+// Keep SVG lines synced on viewport resize
+window.addEventListener(`resize`, () => {
+  requestAnimationFrame(drawPrerequisiteLines);
+});
+
+document.addEventListener(`DOMContentLoaded`, () => {
+  renderAll();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      requestAnimationFrame(drawPrerequisiteLines);
+    });
+  }
+});
+</script>
+</body>
+</html>
